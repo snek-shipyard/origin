@@ -1,0 +1,24 @@
+Django>=3.1.0,<3.2.0
+wagtail>=2.11.0,<2.12.0
+# wagtail-bifrost>=3.0.0
+git+https://github.com/schettnet/wagtail-bifrost.git@0facd75d7d00072e9ca294933b134e7f5458a2dd
+psycopg2-binary<2.9.0
+wagtail-django-recaptcha==1.0
+django-pattern-library==0.3.0
+wagtailfontawesome==1.1.4
+graphene-django-optimizer==0.6.2
+django-cors-headers==3.4.0
+django-filter==2.4.0
+wagtail-generic-chooser==0.1.1
+redis==3.5.3
+django-redis==4.12.1
+channels-redis==3.2.0
+graphql-ws==0.3.1
+wagtailmedia==0.5.0
+factory-boy==2.12.0
+wagtail-factories==2.0.0
+wagtail-headless-preview==0.1.4
+Twisted[tls,http2]==20.3.0
+telethon==1.18.2
+pydub==0.24.1
+SpeechRecognition==3.8.1

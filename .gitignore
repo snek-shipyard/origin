@@ -1,0 +1,32 @@
+#> Custom gitignore file for Docker and Django
+# Docker environment
+.env
+
+# Django environments
+venv/
+linux-venv/
+windows-venv/
+
+# Pycache
+__pycache__/
+*.pyc
+
+# SQLite
+#*.sqlite3
+
+#> Custom gitignore file for esite
+# Audios
+*.ogg
+*.mp3
+
+# Images
+*.jpg
+*.png
+*.gif
+#*.svg
+
+# Fonts
+*.ttf
+
+# SPDX-License-Identifier: (EUPL-1.2)
+# Copyright © 2021 snek.at

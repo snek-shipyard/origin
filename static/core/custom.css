@@ -1,0 +1,292 @@
+header {
+    background: #006699; /* 4c7fa7 */
+}
+
+.wagtail-logo-container__desktop {
+    position: relative;
+    width: 100px;
+    height: 100px;
+    background-color: #fff;
+    border-radius: 50%;
+    margin: 0 auto;
+    transition: all 0.25s cubic-bezier(0.28, 0.15, 0, 2.1);
+}
+
+a {
+    color: #006699;
+}
+
+a:hover {
+    color: #054c70; /* 2a3c4a */
+}
+
+.button {
+    background-color: #006699;
+    border: 1px solid #006699;
+}
+
+.button:hover {
+    background-color: #054c70;
+    border-color: transparent;
+}
+
+.button-secondary {
+    color: #006699;
+    background-color: transparent;
+}
+
+.button.disabled,
+.button:disabled,
+.button[disabled] {
+    background-color: #d9d9d9;
+    border-color: #d9d9d9;
+    color: #737373;
+}
+
+input[type="submit"] {
+    background-color: #006699;
+    border-color: #006699;
+}
+
+input[type="submit"]:hover {
+    background-color: #054c70;
+    border-color: transparent;
+    color: #ffffff;
+}
+
+.dropdown .dropdown-toggle {
+    background-color: #054c70 !important;
+}
+
+.dropdown .dropdown-toggle:hover,
+.dropdown.open .dropdown-toggle {
+    background-color: #053c57 !important;
+}
+
+header .button {
+    background-color: #054c70 !important;
+}
+
+header .button:hover {
+    background-color: #053c57 !important; /* 36223f */
+}
+
+.tab-nav a {
+    background-color: #054c70;
+    border-top: 0.3em solid #054c70;
+}
+
+.tab-nav a:hover {
+    border-top: 0.3em solid #290041; /* 003f41 */
+}
+
+.tab-nav.merged {
+    background-color: #006699;
+}
+
+.nav-main .menu-item a:after {
+    top: 0.55em;
+}
+
+.button.yes {
+    background-color: #189370;
+    border: 1px solid #189370;
+}
+
+.button.yes:hover {
+    color: #ffffff;
+    border-color: transparent;
+    background-color: #127055;
+}
+
+.t-inverted .u-btn-current {
+    border-color: rgba(0, 0, 0, 0.35);
+}
+
+.breadcrumb li a:after,
+.breadcrumb li span:after {
+    top: 0.21em;
+    right: -0.3em;
+    color: #ffffff;
+}
+
+.breadcrumb li:hover {
+    background: #053c57;
+}
+
+@media screen and (min-width: 50em) {
+    .breadcrumb {
+        background-color: #054c70;
+    }
+}
+
+.progress .bar {
+    background-color: #006699;
+}
+
+.progress {
+    background-color: #053c57;
+    border: 1px solid #006699;
+}
+
+.loading-mask.loading:after {
+    color: #006699;
+}
+
+.listing.chooser tbody tr:hover {
+    background-color: #006699;
+}
+
+input[type="radio"]:checked:before {
+    color: #006699;
+}
+
+input[type="checkbox"]:checked:before {
+    color: #006699;
+}
+
+.c-sf-add-button {
+    color: #006699 !important;
+}
+
+.page-explorer .listing .index {
+    background-color: #006699;
+}
+
+.page-explorer .listing .index .button.bicolor {
+    background-color: #006699;
+}
+
+.page-explorer .listing .index .button:hover {
+    background-color: #054c70;
+    border-color: transparent;
+}
+
+.t-inverted .u-btn-current:hover {
+    background-color: #054c70;
+    border-color: rgba(0, 0, 0, 0.35);
+}
+
+.t-default .u-btn-current {
+    border-color: rgba(0, 0, 0, 0.15);
+    color: #006699;
+}
+
+.t-default .u-btn-current:hover {
+    background-color: #054c70;
+    border-color: rgba(0, 0, 0, 0.35);
+}
+
+.listing .button-secondary:hover {
+    background-color: #054c70;
+    border-color: transparent;
+}
+
+.listing .title h2 a:hover {
+    color: #054c70;
+}
+
+.object > h2 {
+    background: #faf2fc !important;
+}
+
+.object > h2 label:before,
+.object > h2:before {
+    background-color: #054c70 !important;
+}
+
+.sequence-controls h3 label {
+    color: #054c70;
+}
+
+@media screen and (min-width: 50em) {
+    .listing td.children:hover {
+        background-color: #054c70;
+    }
+}
+
+.listing .children a {
+    color: #054c70;
+    display: block;
+}
+
+@media screen and (min-width: 50em) {
+    .listing tr:hover .children {
+        background-color: #006699;
+    }
+}
+
+/*
+  .halloeditor:focus,
+  .tagit:focus,
+  input:focus,
+  select:focus,
+  textarea:focus {
+    border-color: #eff4f8;
+    background-color: #f3eff2;
+  }
+
+  .full .Draftail-Editor--focus {
+    background-color: #eff4f8;
+    border-color: #054c70;
+  }
+
+  li.sequence-member:hover {
+    background-color: #f2f2f3;
+    border-color: #006699;
+  }
+
+  .listing .no-children a:hover {
+    color: #006699;
+  }
+  */
+
+.dropdown ul {
+    background-color: #006699;
+}
+
+.dropdown ul a:hover {
+    background-color: #054c70;
+}
+
+/*
+  .icon-bin {
+    background-color: #cd3238;
+    border: 1px solid #cd3238;
+  }
+  */
+
+.halloeditor:focus,
+.tagit:focus,
+input:focus,
+select:focus,
+textarea:focus {
+    background-color: #fbf2fc;
+    border-color: #054c70;
+}
+
+.c-sf-button:focus,
+.c-sf-button:hover {
+    background-color: #054c70 !important;
+}
+
+.full .Draftail-Editor--focus {
+    background-color: #fbf2fc !important;
+    border-color: #054c70 !important;
+}
+
+.wagtail-logo-container__desktop .wagtail-logo-container-inner {
+    width: 100px !important;
+    height: 100px !important;
+    margin: auto;
+    position: relative;
+}
+
+.replace-file-input:hover button {
+    background-color: #054c70 !important;
+}
+
+/**
+ * SPDX-License-Identifier: (EUPL-1.2)
+ * Copyright © 2019 Werbeagentur Christian Aichner
+ */

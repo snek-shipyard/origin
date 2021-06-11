@@ -1,0 +1,102 @@
+version: '3'
+
+services:
+  db:
+    image: postgres:12-alpine
+    restart: unless-stopped
+    networks:
+      - local
+    volumes:
+      - db-data:/var/lib/postgresql/data
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_DB: postgres
+      POSTGRES_PASSWORD: postgres
+    #deploy:
+      #placement:
+      #  constraints:
+      #    - node.hostname==snek1
+      #resources:
+        #limits:
+        #  cpus: '0.20'
+        #  memory: 512M
+        #reservations:
+        #  cpus: '0.10'
+        #  memory: 256M
+
+    # Add "forwardPorts": ["5432"] to **devcontainer.json** to forward PostgreSQL locally.
+    # (Adding the "ports" property to this file will not forward from a Codespace.)
+
+  redis:
+    image: redis:5.0.1-alpine
+    networks:
+      - local
+
+  # Add "forwardPorts": ["5432"] to **devcontainer.json** to forward PostgreSQL locally.
+  # (Adding the "ports" property to this file will not forward from a Codespace.)
+
+  elasticsearch:
+    image: elasticsearch:2.3
+    networks:
+      - local
+  # Add "forwardPorts": ["5432"] to **devcontainer.json** to forward PostgreSQL locally.
+  # (Adding the "ports" property to this file will not forward from a Codespace.)
+
+  adminer:
+    image: snekat/adminer
+    ports:
+      - 8888:8888
+    networks:
+      - local
+
+  app:
+    build:
+      context: ..
+      dockerfile: .devcontainer/Dockerfile
+      args:
+        # [Choice] Python version: 3, 3.8, 3.7, 3.6
+        VARIANT: 3
+        # [Choice] Install Node.js
+        INSTALL_NODE: "true"
+        NODE_VERSION: "lts/*"
+        # On Linux, you may need to update USER_UID and USER_GID below if not your local UID is not 1000.
+        USER_UID: 1000
+        USER_GID: 1000
+
+    volumes:
+      - ..:/workspace:cached
+
+    # Overrides default command so things don't shut down after the process ends.
+    command: sleep infinity
+
+    # Runs app on the same network as the database container, allows "forwardPorts" in devcontainer.json function.
+    #network_mode: service:db
+    
+    networks:
+      - local
+
+    environment:
+      #- DJANGO_SECRET_KEY=${DJANGO_SECRET_KEY}
+      - DJANGO_SETTINGS_MODULE=esite.settings.production
+      - DATABASE_URL=postgres://postgres:postgres@db/postgres
+      #- DATABASE_URL=mysql://${MYSQL_USER}:${MYSQL_PASSWORD}@db:3306/${MYSQL_DATABASE}
+      #- CACHE_URL=redis://redis
+      - ELASTICSEARCH_ENDPOINT=elasticsearch
+
+    depends_on:
+      - "db"
+      - "redis"
+      - "elasticsearch"
+
+    # Uncomment the next line to use a non-root user for all processes.
+    # user: vscode
+
+    # Use "forwardPorts" in **devcontainer.json** to forward an app port locally.
+    # (Adding the "ports" property to this file will not forward from a Codespace.)
+
+volumes:
+  db-data:
+    driver: local
+
+networks:
+  local:
