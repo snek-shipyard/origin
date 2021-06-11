@@ -2,7 +2,7 @@ name: publish
 
 on: [push]
 env:
-  IMAGE_NAME: ccms
+  IMAGE_NAME: snek-origin
 
 jobs:
   # Push image to GitHub Packages.
