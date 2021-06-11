@@ -32,6 +32,7 @@ from wagtail.snippets.edit_handlers import SnippetChooserPanel
 
 from bifrost.publisher.actions import register_publisher
 from bifrost.publisher.options import PublisherOptions
+from graphql import GraphQLError
 from bifrost.api.models import (
     GraphQLBoolean,
     GraphQLCollection,
@@ -49,44 +50,44 @@ from bifrost.api.models import (
 
 # Create your publish related models here.
 
-class JaenRepository(ClusterableModel):
+# class JaenRepository(ClusterableModel):
 
-    jaen_account = ParentalKey(
-        "jaen_cms.JaenAccount", blank=False, on_delete=models.CASCADE, related_name="jaen_repository"
-    )
+#     jaen_account = ParentalKey(
+#         "jaen_cms.JaenAccount", blank=False, on_delete=models.CASCADE, related_name="jaen_repository"
+#     )
 
-    git_remote = models.URLField(
-        "git remote",
-        null=True,
-        blank=False,
-        unique=True,
-        max_length = 255
-    )
+#     git_remote = models.URLField(
+#         "git remote",
+#         null=True,
+#         blank=False,
+#         unique=True,
+#         max_length = 255
+#     )
 
-    # Panels/fields to fill in the Add enterprise form
-    panels = [
-        MultiFieldPanel(
-            [
-                FieldPanel("jaen_account"),
-                FieldPanel("git_remote_type"),
-                FieldPanel("git_remote"),
-                FieldPanel("git_user"),
-                FieldPanel("git_token"),
-            ],
-            "Details",
-        ),
-    ]
+#     # Panels/fields to fill in the Add enterprise form
+#     panels = [
+#         MultiFieldPanel(
+#             [
+#                 FieldPanel("jaen_account"),
+#                 FieldPanel("git_remote_type"),
+#                 FieldPanel("git_remote"),
+#                 FieldPanel("git_user"),
+#                 FieldPanel("git_token"),
+#             ],
+#             "Details",
+#         ),
+#     ]
 
-    graphql_fields = [
-        GraphQLString("jaen_account"),
-        GraphQLString("git_remote_type"),
-        GraphQLString("git_remote"),
-        GraphQLString("git_user"),
-        GraphQLString("git_token"),
-    ]
+#     graphql_fields = [
+#         GraphQLString("jaen_account"),
+#         GraphQLString("git_remote_type"),
+#         GraphQLString("git_remote"),
+#         GraphQLString("git_user"),
+#         GraphQLString("git_token"),
+#     ]
 
-    def __str__(self):
-        return f"{self.git_remote}"
+#     def __str__(self):
+#         return f"{self.git_remote}"
 
 
 
@@ -160,20 +161,28 @@ class JaenPublishFormPage(AbstractEmailForm):
         ]
     )
 
+    def full_clean(self, *args, **kwargs):
+        # first call the built-in cleanups (including default slug generation)
+        super(JaenPublishFormPage, self).full_clean(*args, **kwargs)
+
+        # now make your additional modifications
+        # if not self.slug.startswith("jaen-"):
+        #     self.slug = f"jaen-{self.slug}"
+
     def save(self, *args, **kwargs):
         if self.pk is None:
             self.form_fields.add(
                 JaenPublishFormField(
-                    label="git_user", field_type="singleline", required=True,
+                    label="user", field_type="hidden", required=False,
                 ),
                 JaenPublishFormField(
-                    label="git_token", field_type="singleline", required=True,
+                    label="git_user", field_type="hidden", required=False,
                 ),
                 JaenPublishFormField(
                     label="git_remote", field_type="singleline", required=True,
                 ),
                 JaenPublishFormField(
-                    label="jaen_data", field_type="singleline", required=True,
+                    label="jaen_data", field_type="multiline", required=True,
                 ),
             )
 
@@ -185,29 +194,28 @@ class JaenPublishFormPage(AbstractEmailForm):
 
     # Publish to git remote
     def publish(
-        self, user, git_user, git_token, git_remote, jaen_data
+        self, user, git_user, git_remote, jaen_data
     ):
-        # Add user data
-        # user = get_user_model()(username=username, is_active=False)
+        # Get GitHub token from jaen account 
+        git_token = user.jaen_account.git_token
 
-        # user.set_password(password)
+
+        print(git_token)
 
         url = f"https://api.github.com/repos/{git_remote}/dispatches"
 
         headers = requests.structures.CaseInsensitiveDict()
         headers["Accept"] = "application/vnd.github.everest-preview+json"
         headers["Content-Type"] = "application/x-www-form-urlencoded"
-        headers["Authorization"] = git_token
+        headers["Authorization"] = f"token {git_token}"
 
-        test_data = '{"event_type":"update-jaen-data", "client_payload": { "dataLayer": { "quiz": { "sport": { "q1": { "question": "Which one is correct team name in NBA?", "options": [ "New York Bulls", "Los Angeles Kings", "Golden State Warriros", "Huston Rocket" ], "answer": "Huston Rocket" } }, "maths": { "q1": { "question": "5 + 7 = ?", "options": [ "10", "11", "12", "13" ], "answer": "12" }, "q2": { "question": "12 - 8 = ?", "options": [ "1", "2", "3", "4" ], "answer": "4" } } } }}'
-
+        test_data = '{"event_type":"update-jaen-data", "client_payload": { "dataLayer": { "origin": { "pages": { "home": { "fields": { "body": { "blocks": { "0": { "content": "Original Heading Content", "typeName": "heading" }, "1": { "content": "<p>Original Subheading Content</p>", "typeName": "subheading" } } } }, "typeName": "HomePage" } } } }, "index": { "checksum": "d716d3da6493f8e1ad5c9dc480ea595b0402355815f25c5353c6e37413516f32d", "rootPageSlug": "home", "pages": { "home": { "slug": "home", "title": "My HomePage Updated4", "typeName": "HomePage", "childSlugs": ["blog-1"] } } } }}'
 
         resp = requests.post(url, headers=headers, data=jaen_data)
 
-        print(resp.status_code)
+        resp.raise_for_status()
 
-
-        return user
+        return user.jaen_account
 
     # Called when a user registers
     def send_mail(self, form):
@@ -236,22 +244,24 @@ class JaenPublishFormPage(AbstractEmailForm):
 
     def process_form_submission(self, form, user, *args, **kwargs):
 
-        user = self.publish(
+        jaen_account = self.publish(
             user=user,
             git_user=form.cleaned_data["git_user"],
-            git_token=form.cleaned_data["git_token"],
             git_remote=form.cleaned_data["git_remote"],
             jaen_data=form.cleaned_data["jaen_data"],
         )
 
+        form.cleaned_data["user"] = user.username
+        form.cleaned_data["git_user"] = user.jaen_account.git_user
+
         self.get_submission_class().objects.create(
             form_data=json.dumps(form.cleaned_data, cls=DjangoJSONEncoder),
             page=self,
-            user=user,
+            jaen_account=jaen_account,
         )
 
         if self.to_address:
             self.send_mail(form)
 
 class JaenPublishFormSubmission(AbstractFormSubmission):
-    user = models.ForeignKey(get_user_model(), on_delete=models.CASCADE)
+    jaen_account = ParentalKey("jaen_cms.JaenAccount", on_delete=models.CASCADE, related_name="publish_submissions")

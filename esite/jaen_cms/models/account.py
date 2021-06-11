@@ -83,6 +83,8 @@ class JaenAccount(ClusterableModel):
     # Panels/fields to fill in the Add enterprise form
     panels = [
         FieldPanel("user"),
+        FieldPanel("git_user"),
+        FieldPanel("git_token"),
     ]
 
     graphql_fields = [
@@ -92,16 +94,11 @@ class JaenAccount(ClusterableModel):
             publisher_options=PublisherOptions(read=True, create=True),
             required=True,
         ),
-        GraphQLForeignKey(
-            "jaen_repository",
-            "jaen_cms.JaenRepository",
-            publisher_options=PublisherOptions(read=True, create=True),
-            required=True,
-        ),
+        GraphQLString("git_user"),
     ]
 
     def __str__(self):
-        return f"{self.user.username} {self.jaen_repository.remote}"
+        return f"{self.user.username}"
 
 
 class JaenRegistrationFormField(AbstractFormField):

@@ -1,8 +1,8 @@
 FROM python:3.9-slim
 
 LABEL description="This container serves as an entry point for our future Django projects."
-LABEL org.opencontainers.image.source="https://github.com/tuwien-club/ccms"
-LABEL maintainer="admin@tuwien.club"
+LABEL org.opencontainers.image.source="https://github.com/snek-shipyard/origin"
+LABEL maintainer="team@snek.at"
 
 # Add custom environment variables needed by Django or your settings file here:
 ENV DJANGO_DEBUG=on \
