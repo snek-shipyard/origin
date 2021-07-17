@@ -30,7 +30,10 @@ from bifrost.publisher.actions import register_publisher
 
 
 @register_setting
-@register_publisher(read_singular=True)
+@register_publisher(
+    read_singular=True,
+    delete=False,
+)
 class SnekSettings(BaseSetting):
     class Meta:
         verbose_name = "Snek Config"
