@@ -30,7 +30,7 @@ class Query(graphene.ObjectType):
     )
 
     @login_required
-    def me_jaen_account(self, info, **_kwargs):
+    def resolve_my_jaen_account(self, info, **_kwargs):
         jaen_account = info.context.user.jaen_account
 
         return jaen_account
