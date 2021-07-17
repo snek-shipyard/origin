@@ -41,13 +41,14 @@ class SNEKUser(AbstractUser, ClusterableModel):
         ),
     ]
 
-    graphql_fields = [
-        GraphQLString("username"),
-        GraphQLString("first_name"),
-        GraphQLString("last_name"),
-        GraphQLString("email"),
-        GraphQLBoolean("is_active"),
-    ]
+    # Not yet working in bifrost c3c8eaa
+    # graphql_fields = [
+    #     GraphQLString("username"),
+    #     GraphQLString("first_name"),
+    #     GraphQLString("last_name"),
+    #     GraphQLString("email"),
+    #     GraphQLBoolean("is_active"),
+    # ]
 
     # Custom save function
     def save(self, *args, **kwargs):
