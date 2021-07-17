@@ -1,5 +1,6 @@
 import json
 import uuid
+import hashlib
 
 from django.contrib.auth import get_user_model
 from django.contrib.auth.models import AbstractUser, BaseUserManager
@@ -47,6 +48,8 @@ from bifrost.api.models import (
 )
 
 # Create your registration related models here.
+def random_token():
+    return hashlib.sha256(str.encode(uuid.uuid4().hex)).hexdigest()
 
 class JaenAccount(ClusterableModel):
     user = models.OneToOneField(
@@ -66,7 +69,15 @@ class JaenAccount(ClusterableModel):
         help_text="Required. 255 characters or fewer. Letters and digits only.",
         max_length=255,
     )
-    
+
+    encryption_token = models.CharField(
+        "encryption token",
+        default=random_token,
+        blank=True,
+        help_text="Required. Generated sha256 hash.",
+        max_length=256,
+    )
+
     def is_snek_member(self, info, **kwargs):
         return self.user.groups.filter(name="snek-member").exists()
 
@@ -85,6 +96,7 @@ class JaenAccount(ClusterableModel):
         FieldPanel("user"),
         FieldPanel("git_user"),
         FieldPanel("git_token"),
+        FieldPanel("encryption_token"),
     ]
 
     graphql_fields = [
@@ -94,7 +106,11 @@ class JaenAccount(ClusterableModel):
             publisher_options=PublisherOptions(read=True, create=True),
             required=True,
         ),
-        GraphQLString("git_user"),
+        GraphQLString(
+            "encryption_token",
+            publisher_options=PublisherOptions(read=True, create=True),
+            required=True,
+        ),
     ]
 
     def __str__(self):
@@ -205,11 +221,10 @@ class JaenRegistrationFormPage(AbstractEmailForm):
         user = get_user_model()(username=username, is_active=False)
 
         user.set_password(password)
-        
 
         # Add jaen data
         user.jaen_account = JaenAccount.objects.create(user=user)
-        
+
         user.save()
 
         return user
