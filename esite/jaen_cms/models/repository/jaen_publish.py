@@ -164,7 +164,7 @@ class JaenPublishFormPage(AbstractEmailForm):
         headers["Accept"] = "application/vnd.github.everest-preview+json"
         headers["Content-Type"] = "application/x-www-form-urlencoded"
         headers["Authorization"] = f"token {git_token}"
-        
+
         jaen_payload = '{"jaendata_url":' + jaendata_url +', "encryption_token":' + encryption_token + ' }'
 
         data = '{"event_type":"update-jaen-data", "client_payload":' + jaen_payload + ' }'
