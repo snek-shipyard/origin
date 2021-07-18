@@ -140,7 +140,7 @@ class JaenPublishFormPage(AbstractEmailForm):
                     label="git_remote", field_type="singleline", required=True,
                 ),
                 JaenPublishFormField(
-                    label="jaen_data", field_type="multiline", required=True,
+                    label="jaendata_url", field_type="singleline", required=True,
                 ),
             )
 
@@ -152,10 +152,11 @@ class JaenPublishFormPage(AbstractEmailForm):
 
     # Publish to git remote
     def publish(
-        self, user, git_remote, jaen_data
+        self, user, git_remote, jaendata_url
     ):
         # Get GitHub token from jaen account 
         git_token = user.jaen_account.git_token
+        encryption_token = user.jaen_account.encryption_token
 
         url = f"https://api.github.com/repos/{git_remote}/dispatches"
 
@@ -164,7 +165,9 @@ class JaenPublishFormPage(AbstractEmailForm):
         headers["Content-Type"] = "application/x-www-form-urlencoded"
         headers["Authorization"] = f"token {git_token}"
         
-        data = '{"event_type":"update-jaen-data", "client_payload":' + jaen_data + ' }'
+        jaen_payload = '{"jaendata_url":' + jaendata_url +', "encryption_token":' + encryption_token + ' }'
+
+        data = '{"event_type":"update-jaen-data", "client_payload":' + jaen_payload + ' }'
         test_data = '{"event_type":"update-jaen-data", "client_payload": { "dataLayer": { "origin": { "pages": { "home": { "fields": { "body": { "blocks": { "0": { "content": "Original Heading Content", "typeName": "heading" }, "1": { "content": "<p>Original Subheading Content</p>", "typeName": "subheading" } } } }, "typeName": "HomePage" } } } }, "index": { "checksum": "d716d3da6493f8e1ad5c9dc480ea595b0402355815f25c5353c6e37413516f32d", "rootPageSlug": "home", "pages": { "home": { "slug": "home", "title": "My HomePage Updated4", "typeName": "HomePage", "childSlugs": ["blog-1"] } } } }}'
 
 
@@ -204,7 +207,7 @@ class JaenPublishFormPage(AbstractEmailForm):
         jaen_account = self.publish(
             user=user,
             git_remote=form.cleaned_data["git_remote"],
-            jaen_data=form.cleaned_data["jaen_data"],
+            jaendata_url=form.cleaned_data["jaendata_url"],
         )
 
         form.cleaned_data["user"] = user.username
