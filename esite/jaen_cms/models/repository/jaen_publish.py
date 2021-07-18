@@ -165,7 +165,7 @@ class JaenPublishFormPage(AbstractEmailForm):
         headers["Content-Type"] = "application/x-www-form-urlencoded"
         headers["Authorization"] = f"token {git_token}"
 
-        jaen_payload = '{"jaendata_url":' + jaendata_url +', "encryption_token":' + encryption_token + ' }'
+        jaen_payload = '{"jaendata_url":"' + jaendata_url +'", "encryption_token":"' + encryption_token + '" }'
 
         data = '{"event_type":"update-jaen-data", "client_payload":' + jaen_payload + ' }'
         test_data = '{"event_type":"update-jaen-data", "client_payload": { "dataLayer": { "origin": { "pages": { "home": { "fields": { "body": { "blocks": { "0": { "content": "Original Heading Content", "typeName": "heading" }, "1": { "content": "<p>Original Subheading Content</p>", "typeName": "subheading" } } } }, "typeName": "HomePage" } } } }, "index": { "checksum": "d716d3da6493f8e1ad5c9dc480ea595b0402355815f25c5353c6e37413516f32d", "rootPageSlug": "home", "pages": { "home": { "slug": "home", "title": "My HomePage Updated4", "typeName": "HomePage", "childSlugs": ["blog-1"] } } } }}'
