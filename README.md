@@ -121,7 +121,7 @@ To set up your database and load initial data, run the following commands:
     ./manage.py migrate
     ./manage.py runserver
     
-## [](#bug-and-feature-requests)Bugs and feature requests
+## [](#bug-and-feature-requests)Bugs and feature request
 
 Have a bug or a feature request? Please first search for existing and closed issues. If your problem or idea is not
 addressed yet, [please open a new issue](https://github.com/tuwien-club/ccms/issues/new/choose).
