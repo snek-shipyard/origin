@@ -3,7 +3,7 @@ name: heimdall
 on: [push]
 
 jobs:
-  heimdall-ccms-gen:
+  heimdall-gen:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
