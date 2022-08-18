@@ -1,5 +1,5 @@
 <p align="center">
-  <a href="https://snek.at/" target="_blank" rel="noopener noreferrer">
+  <a href="https://snek.at" target="_blank" rel="noopener noreferrer">
     <img src="https://user-images.githubusercontent.com/26285351/115684229-7aa44400-a357-11eb-917b-8d80d6c3e5d1.png" alt="tuwien-club logo" height="150">
   </a>
 </p>
