@@ -11,15 +11,19 @@ jobs:
           sudo npm i -g apollo graphql
       - run: |
           sudo npm i -g apollo-codegen
+      - run: |
+          echo "##[set-output name=branch;]$(echo ${GITHUB_REF#refs/heads/})"
+          echo "::set-output name=sha_short::$(git rev-parse --short HEAD)"
       - name: Github package registry authentication
         run: npm set //npm.pkg.github.com/:_authToken ${{ secrets.GITHUB_TOKEN }}
       # If you need to, you can check out your repo to a different location
       - uses: nick-invision/private-action-loader@v3
         with:
-          pal-repo-token: ${{ secrets.CR_PAT }}
+          pal-repo-token: ${{ secrets.REPO_TOKEN }}
           pal-repo-name: snek-shipyard/heimdall-action
           # the following input gets passed to the private action
           structure-url: 'https://dev.kanbon.cloud/graphql/'
           data-url: 'https://dev.kanbon.cloud/graphql/'
           storage-path: ${{ github.workspace }}/.private-action/storage.crypto
           storage-encryption-key: ${{ secrets.STORAGE_ENCRYPTION_KEY }}
+          drop-hash: "teeeest"
