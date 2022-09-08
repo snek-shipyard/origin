@@ -19,8 +19,8 @@ jobs:
           pal-repo-token: ${{ secrets.REPO_TOKEN }}
           pal-repo-name: snek-shipyard/heimdall-action
           # the following input gets passed to the private action
-          structure-url: 'https://dev.kanbon.cloud/graphql/'
-          data-url: 'https://dev.kanbon.cloud/graphql/'
+          structure-url: 'https://origin.snek.at//graphql/'
+          data-url: 'https://origin.snek.at//graphql/'
           storage-path: ${{ github.workspace }}/.private-action/storage.crypto
           storage-encryption-key: ${{ secrets.STORAGE_ENCRYPTION_KEY }}
           drop-hash: ${{ github.sha }}
