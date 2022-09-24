@@ -20,4 +20,4 @@ jobs:
           data-url: 'https://origin.snek.at/graphql/'
           storage-path: ${{ github.workspace }}/.private-action/storage.crypto
           storage-encryption-key: ${{ secrets.STORAGE_ENCRYPTION_KEY }}
-          drop-hash: ${{ github.sha }
+          drop-hash: ${{ github.sha }}
