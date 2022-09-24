@@ -10,7 +10,7 @@ jobs:
       - uses: actions/setup-node@v2
         with:
           node-version: 16
-      - run: npm install yarn -g && npm i -g apollo
+      - run: npm install yarn -g && npm i -g apollo @snek-at/heimdall
       - uses: nick-invision/private-action-loader@v3
         with:
           pal-repo-token: ${{ secrets.REPO_TOKEN }}
