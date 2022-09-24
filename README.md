@@ -42,7 +42,7 @@
 
 ## [](#quick-start)Quick start
 
-Several quick start options are available:
+Several quick start options are available:a
 
 -   [Docker](#setup-with-docker)
 -   [Python Virtual Environment](#setup-with-python-virtual-environment)
