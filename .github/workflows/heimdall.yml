@@ -7,16 +7,8 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-      - run: |
-          sudo npm install yarn apollo @snek-at/heimdall -g
-      # If you need to, you can check out your repo to a different location
-      - uses: nick-invision/private-action-loader@v3
+      - uses: actions/setup-node@v2
         with:
-          pal-repo-token: ${{ secrets.REPO_TOKEN }}
-          pal-repo-name: snek-shipyard/heimdall-action
-          # the following input gets passed to the private action
-          structure-url: 'https://origin.snek.at/graphql/'
-          data-url: 'https://origin.snek.at/graphql/'
-          storage-path: ${{ github.workspace }}/.private-action/storage.crypto
-          storage-encryption-key: ${{ secrets.STORAGE_ENCRYPTION_KEY }}
-          drop-hash: ${{ github.sha }}
+          node-version: 16
+      - run: npm install yarn @snek-at/heimdall -g
+      - run: heimdall generate https://dev.kanbon.cloud/graphql/ --drop-version ${{ github.sha }
