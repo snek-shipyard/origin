@@ -10,5 +10,5 @@ jobs:
       - uses: actions/setup-node@v2
         with:
           node-version: 16
-      - run: npm install yarn @snek-at/heimdall graphql -g
-      - run: heimdall generate https://dev.kanbon.cloud/graphql/ --drop-version ${{ github.sha }}
+      - run: npm install yarn && yarn add @snek-at/heimdall
+      - run: yarn heimdall generate https://dev.kanbon.cloud/graphql/ --drop-version ${{ github.sha }}
