@@ -12,3 +12,9 @@ jobs:
           node-version: 16
       - run: npm install yarn && yarn add @snek-at/heimdall
       - run: yarn heimdall generate https://dev.kanbon.cloud/graphql/ --drop-version 0.0.${{ github.runNumber }}
+      - name: Archive production artifacts
+          uses: actions/upload-artifact@v3
+          with:
+            name: drop
+            path: |
+              drop-*.tgz
